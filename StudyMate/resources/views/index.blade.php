@@ -35,14 +35,14 @@
         <nav class="welcome-actions" aria-label="Aksi akun">
           <a
             class="action-button action-button-primary"
-            href="#daftar"
+            href="/register"
             data-node-id="1:22"
           >
             Daftar Akun Baru
           </a>
           <a
             class="action-button action-button-secondary"
-            href="#login"
+            href="/login"
             data-node-id="1:26"
           >
             Sudah punya akun? Login

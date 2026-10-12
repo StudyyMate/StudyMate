@@ -1,0 +1,200 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Plus Jakarta Sans:Bold';
+  src: url('https://static.figma.com/font/PlusJakartaSans_wght__2')
+    format('woff2');
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans:SemiBold';
+  src: url('https://static.figma.com/font/PlusJakartaSans_wght__2')
+    format('woff2');
+  font-style: normal;
+  font-weight: 600;
+}
+
+:root {
+  color: #112d4e;
+  background: #ffffff;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0;
+}
+
+.welcome-screen {
+  width: 100%;
+  min-height: 100dvh;
+  background: linear-gradient(
+    180deg,
+    #cbe5ff 0%,
+    #e1f0ff 40.5%,
+    #ffffff 100%
+  );
+}
+
+.welcome-content {
+  display: flex;
+  width: 100%;
+  min-height: 100dvh;
+  flex-direction: column;
+  align-items: center;
+  padding: 130px 24px 24px;
+}
+
+.brand-block {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.logo-card {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  overflow: hidden;
+  border: 1px solid rgb(239 246 255 / 80%);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 10%),
+    0 2px 4px -2px rgb(0 0 0 / 10%);
+}
+
+.brand-logo {
+  position: absolute;
+  top: 8.42px;
+  left: -15px;
+  width: 98px;
+  height: 61px;
+  max-width: none;
+  object-fit: cover;
+}
+
+.welcome-heading {
+  margin: 12px 0 0;
+  font-family: 'Plus Jakarta Sans:Bold', sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 38.5px;
+  letter-spacing: -0.7px;
+}
+
+.welcome-heading span {
+  color: #3675a8;
+}
+
+.welcome-copy {
+  margin: 0;
+  padding-top: 5.375px;
+  color: #64748b;
+  font-family: 'Liberation Sans:Regular', Arial, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22.75px;
+}
+
+.welcome-actions {
+  display: flex;
+  width: 100%;
+  max-width: 520px;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 100px;
+}
+
+.action-button {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 50.5px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 12px;
+  padding: 14px 24px;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans:SemiBold', sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22.5px;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.action-button:hover {
+  transform: translateY(-1px);
+}
+
+.action-button:active {
+  transform: translateY(0);
+}
+
+.action-button:focus-visible {
+  outline: 3px solid rgb(54 117 168 / 35%);
+  outline-offset: 3px;
+}
+
+.action-button-primary {
+  color: #ffffff;
+  background: #408bc9;
+  box-shadow:
+    0 10px 24px -4px rgb(71 99 172 / 35%),
+    0 1px 2.65px rgb(0 0 0 / 25%);
+}
+
+.action-button-primary:hover {
+  box-shadow:
+    0 12px 28px -4px rgb(71 99 172 / 42%),
+    0 1px 2.65px rgb(0 0 0 / 25%);
+}
+
+.action-button-secondary {
+  color: #334e68;
+  background: #ffffff;
+  box-shadow: 0 6px 18px -4px rgb(16 45 77 / 8%);
+}
+
+@media (max-height: 700px) {
+  .welcome-content {
+    padding-top: 64px;
+  }
+
+  .welcome-actions {
+    margin-top: 64px;
+  }
+}
+
+@media (min-width: 768px) {
+  .welcome-content {
+    padding-top: clamp(130px, 18vh, 180px);
+  }
+
+  .welcome-actions {
+    max-width: 580px;
+  }
+}

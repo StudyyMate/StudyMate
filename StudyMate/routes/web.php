@@ -29,3 +29,19 @@ Route::get('/domisili', function () {
 Route::get('/password', function () {   
     return view('password');
 });
+
+Route::get('/dashboard', function () {   
+    return view('dashboard');
+});
+
+Route::get('/chat', function () {
+    return view('chat');
+});
+
+Route::get('/jadwal', function () {
+    return view('jadwal');
+});
+
+Route::get('/profil', function() {
+    return view('profil');
+});

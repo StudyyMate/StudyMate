@@ -1,15 +1,6 @@
 <!doctype html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Masuk ke StudyMate dan temukan teman belajar yang cocok denganmu."
-    />
-    <title>Masuk ke StudyMate</title>
-    <link rel="stylesheet" href={{ asset('css/style.css') }} />
-  </head>
+@include('layouts.head')
   <body>
     <main class="login-page" data-node-id="7:2">
       <div class="top-space" aria-hidden="true"></div>
@@ -41,7 +32,7 @@
             <div class="form-field">
               <label for="email">Email</label>
               <div class="input-shell">
-                <img src="{{asset("svg/a208b.svg")}}" alt="" aria-hidden="true" />
+                <img src="{{asset("image/a208b.svg")}}" alt="" aria-hidden="true" />
                 <input
                   id="email"
                   name="email"
@@ -58,7 +49,7 @@
                 <a href="#lupa-password">Lupa Password?</a>
               </div>
               <div class="input-shell">
-                <img src="{{asset("svg/6a28e.svg")}}" alt="" aria-hidden="true" />
+                <img src="{{asset("image/6a28e.svg")}}" alt="" aria-hidden="true" />
                 <input
                   id="password"
                   name="password"
@@ -71,14 +62,14 @@
                   type="button"
                   aria-label="Tampilkan password"
                 >
-                  <img src="{{asset("svg/994a5.svg")}}" alt="" aria-hidden="true" />
+                  <img src="{{asset("image/994a5.svg")}}" alt="" aria-hidden="true" />
                 </button>
               </div>
             </div>
 
             <button class="login-button" type="submit">
               <span>Login</span>
-              <img src="{{asset("svg/03d99.svg")}}" alt="" aria-hidden="true" />
+              <img src="{{asset("image/03d99.svg")}}" alt="" aria-hidden="true" />
             </button>
           </form>
         </div>

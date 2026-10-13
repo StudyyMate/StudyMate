@@ -1,15 +1,6 @@
 <!doctype html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Temukan teman belajar yang cocok denganmu bersama StudyMate."
-    />
-    <title>Selamat Datang ke StudyMate</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
-  </head>
+  @include('layouts.head')
   <body>
     <main class="welcome-screen" data-node-id="1:2">
       <section class="welcome-content" aria-labelledby="welcome-heading">

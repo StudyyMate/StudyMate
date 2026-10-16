@@ -10,6 +10,10 @@ Route::get('/login', function () {
     return view('login');
 });
 
+Route::post('/login', function () {
+    return redirect('/dashboard');
+});
+
 Route::get('/register', function () {   
     return view('nama');
 });

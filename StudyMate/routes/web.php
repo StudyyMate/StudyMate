@@ -46,6 +46,31 @@ Route::get('/jadwal', function () {
     return view('jadwal');
 });
 
+Route::get('/validasi', function () {
+    return view('validasifoto');
+});
+
 Route::get('/profil', function() {
     return view('profil');
 });
+
+Route::get('/cari', function() {
+    return view('cari');
+});
+
+Route::get('/hasil', function() {
+    return view('hasil');
+});
+
+Route::get('/chat-room', function() {
+    return view('chat-room');
+});
+
+Route::get('/materi', function() {
+    return view('materi');
+});
+
+Route::get('/kuis', function() {
+    return view('kuis');
+});
+

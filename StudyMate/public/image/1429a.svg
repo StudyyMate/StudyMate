@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="357" height="381" viewBox="0 0 357 381" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path id="Soft vignettes" d="M0 0H357V381H0V0Z" fill="url(#paint0_linear_0_22)"/>
+<defs>
+<linearGradient id="paint0_linear_0_22" x1="-284.5" y1="-129.5" x2="-284.5" y2="251.5" gradientUnits="userSpaceOnUse">
+<stop stop-opacity="0.45"/>
+<stop offset="0.5" stop-opacity="0"/>
+<stop offset="1" stop-opacity="0.6"/>
+</linearGradient>
+</defs>
+</svg>

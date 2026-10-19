@@ -28,7 +28,8 @@
             </p>
           </header>
 
-          <form class="login-form" action="#" method="post" data-node-id="7:18">
+          <form class="login-form" action="/login" method="post" data-node-id="7:18">
+            @csrf
             <div class="form-field">
               <label for="email">Email</label>
               <div class="input-shell">

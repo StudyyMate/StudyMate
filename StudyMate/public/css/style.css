@@ -1,48 +1,4 @@
-/* =============================================================================
- * StudyMate – Master Stylesheet
- * Struktur: Base → Design Tokens → Typography → Layout → Components → Pages
- * =============================================================================
- *
- * DAFTAR ISI
- * 1.  Fonts (Google Fonts import)
- * 2.  Design Tokens  (:root variables)
- * 3.  CSS Reset & Base
- * 4.  Utility Classes (Typography helpers)
- * 5.  Layout Components (topbar, nav, wrap)
- * 6.  Components – Avatar
- * 7.  Components – Buttons & CTAs
- * 8.  Components – Form Elements (input, select, chip, topic)
- * 9.  Components – Cards
- * 10. Components – Tags & Badges
- * 11. Components – Search
- * 12. Page – Welcome (index)
- * 13. Page – Login
- * 14. Page – Register / Onboarding
- * 15. Page – Dashboard
- * 16. Page – Chat List
- * 17. Page – Chat Room (validasifoto, vs-*)
- * 18. Page – Jadwal
- * 19. Page – Profil
- * 20. Page – Cari & Hasil
- * 21. Page – Kuis
- * 22. Page – Materi
- * ============================================================================= */
-
-
-/* =============================================================================
- * 1. FONTS
- * Menggunakan Google Fonts (bukan Figma CDN) agar dapat diakses production
- * ============================================================================= */
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
-
-
-/* =============================================================================
- * 2. DESIGN TOKENS
- * Semua nilai desain didefinisikan di sini sebagai CSS variables.
- * Ubah di sini untuk update seluruh aplikasi.
- * ============================================================================= */
-
 :root {
   /* --- Brand Colors --- */
   --color-primary-50:  #eff6ff;
@@ -128,12 +84,7 @@
   --transition-fast:   150ms ease;
   --transition-normal: 300ms ease;
 }
-
-
-/* =============================================================================
- * 3. CSS RESET & BASE
- * ============================================================================= */
-
+/* 3. CSS RESET & BASE */
 *,
 *::before,
 *::after {
@@ -208,10 +159,7 @@ ol {
 }
 
 
-/* =============================================================================
- * 4. UTILITY CLASSES — Typography Helpers
- * Digunakan di seluruh template untuk varian font.
- * ============================================================================= */
+/* 4. UTILITY CLASSES — Typography Helpers untuk varian font. */
 
 /* Plus Jakarta Sans */
 .pj-med    { font-family: var(--font-heading); font-weight: var(--fw-medium); }
@@ -234,10 +182,8 @@ ol {
 .text-18   { font-size: 18px; line-height: 24px; }
 
 
-/* =============================================================================
- * 5. LAYOUT COMPONENTS
- * Elemen tata letak global: wrap container, topbar, bottom nav.
- * ============================================================================= */
+/* 5. LAYOUT COMPONENTS
+ * Elemen tata letak global: wrap container, topbar, bottom nav. */
 
 /* --- Container Wrapper --- */
 .wrap {
@@ -479,9 +425,7 @@ ol {
 }
 
 
-/* =============================================================================
- * 6. COMPONENTS — Avatar
- * ============================================================================= */
+/* 6. COMPONENTS — Avatar */
 
 .av {
   position: relative;
@@ -539,9 +483,7 @@ ol {
 .initials-16 { width: 16px; height: 16px; }
 
 
-/* =============================================================================
- * 7. COMPONENTS — Buttons & CTAs
- * ============================================================================= */
+/* 7. COMPONENTS — Buttons & CTAs */
 
 /* --- Primary Action Button --- */
 .action-button {
@@ -719,9 +661,7 @@ button.up-btn { border: 0; font: inherit; }
 }
 
 
-/* =============================================================================
- * 8. COMPONENTS — Form Elements
- * ============================================================================= */
+/* 8. COMPONENTS — Form Elements */
 
 /* --- Generic Input --- */
 .input {
@@ -1147,9 +1087,7 @@ button.up-btn { border: 0; font: inherit; }
 }
 
 
-/* =============================================================================
- * 9. COMPONENTS — Cards
- * ============================================================================= */
+/* 9. COMPONENTS — Cards */
 
 /* Base Card */
 .card {
@@ -1268,9 +1206,7 @@ button.up-btn { border: 0; font: inherit; }
 }
 
 
-/* =============================================================================
- * 10. COMPONENTS — Tags & Badges
- * ============================================================================= */
+/* 10. COMPONENTS — Tags & Badges */
 
 /* --- Tags (friend cards) --- */
 .tags {
@@ -1338,10 +1274,7 @@ button.up-btn { border: 0; font: inherit; }
   background: #c7c4d8;
 }
 
-
-/* =============================================================================
- * 11. COMPONENTS — Search Bar
- * ============================================================================= */
+/* 11. COMPONENTS — Search Bar */
 
 .search {
   display: flex;
@@ -1375,9 +1308,7 @@ button.up-btn { border: 0; font: inherit; }
 .search input::placeholder { color: var(--color-text-muted); }
 
 
-/* =============================================================================
- * 12. PAGE — Welcome (index.blade.php)
- * ============================================================================= */
+/*  12. PAGE — Welcome (index.blade.php)*/
 
 .welcome-screen {
   width: 100%;
@@ -1464,9 +1395,7 @@ button.up-btn { border: 0; font: inherit; }
 }
 
 
-/* =============================================================================
- * 13. PAGE — Login (login.blade.php)
- * ============================================================================= */
+/* 13. PAGE — Login (login.blade.php) */
 
 .login-page {
   display: flex;
@@ -1622,9 +1551,7 @@ button.up-btn { border: 0; font: inherit; }
 }
 
 
-/* =============================================================================
- * 14. PAGE — Register / Onboarding (nama, prodi, domisili, minat, password)
- * ============================================================================= */
+/* 14. PAGE — Register / Onboarding (nama, prodi, domisili, minat, password) */
 
 .reg-page {
   width: 100%;
@@ -1775,9 +1702,7 @@ button.up-btn { border: 0; font: inherit; }
 .f-semibold { font-family: var(--font-body); font-weight: var(--fw-semibold); }
 
 
-/* =============================================================================
- * 15. PAGE — Dashboard (dashboard.blade.php)
- * ============================================================================= */
+/* 15. PAGE — Dashboard (dashboard.blade.php)*/
 
 .dash {
   width: 100%;
@@ -1974,9 +1899,7 @@ button.up-btn { border: 0; font: inherit; }
 }
 
 
-/* =============================================================================
- * 16. PAGE — Chat List (chat.blade.php)
- * ============================================================================= */
+/* 16. PAGE — Chat List (chat.blade.php) */
 
 .chat-page                        { background: var(--grad-chat); }
 .chat-page .topbar                { background: rgba(204, 230, 254, 0.80); }
@@ -2052,9 +1975,7 @@ button.up-btn { border: 0; font: inherit; }
 .chat-page .nav a[aria-current="page"] { letter-spacing: 0.4px; }
 
 
-/* =============================================================================
- * 17. PAGE — Chat Room / Validasi Foto (chat-room.blade.php, validasifoto.blade.php)
- * ============================================================================= */
+/*17. PAGE — Chat Room / Validasi Foto (chat-room.blade.php, validasifoto.blade.php) */
 
 /* Shared VS (Validasi / Scan) prefix */
 .vs {
@@ -2422,10 +2343,7 @@ button.up-btn { border: 0; font: inherit; }
   text-align: center;
 }
 
-
-/* =============================================================================
- * 18. PAGE — Jadwal (jadwal.blade.php)
- * ============================================================================= */
+/* 18. PAGE — Jadwal (jadwal.blade.php)*/
 
 .jadwal-page               { background: var(--grad-jadwal); }
 .jadwal-page .topbar       { background: var(--topbar-bg-jadwal); }
@@ -2773,9 +2691,7 @@ input.jd-input       { cursor: text; }
 .jd-submit:hover { background: #084d79; }
 
 
-/* =============================================================================
- * 19. PAGE — Profil (profil.blade.php)
- * ============================================================================= */
+/* 19. PAGE — Profil (profil.blade.php) */
 
 .profil-page               { background: var(--grad-profil); }
 .profil-page .topbar       { background: var(--topbar-bg-jadwal); }
@@ -3029,9 +2945,7 @@ input.jd-input       { cursor: text; }
 .pf-save span       { max-width: 90px; }
 
 
-/* =============================================================================
- * 20. PAGE — Cari & Hasil (cari.blade.php, hasil.blade.php)
- * ============================================================================= */
+/* 20. PAGE — Cari & Hasil (cari.blade.php, hasil.blade.php)*/
 
 .cari-main {
   display: flex;
@@ -3220,9 +3134,7 @@ input.jd-input       { cursor: text; }
 }
 
 
-/* =============================================================================
- * 21. PAGE — Kuis (kuis.blade.php)
- * ============================================================================= */
+/* 21. PAGE — Kuis (kuis.blade.php)*/
 
 .kz {
   padding-bottom: 96px;
@@ -3642,9 +3554,7 @@ input.jd-input       { cursor: text; }
 .kz.finished .result     { display: flex; }
 
 
-/* =============================================================================
- * 22. PAGE — Materi (materi.blade.php)
- * ============================================================================= */
+/* 22. PAGE — Materi (materi.blade.hp)*/
 
 .mt-main {
   display: flex;

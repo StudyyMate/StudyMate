@@ -682,6 +682,7 @@ button.up-btn { border: 0; font: inherit; }
 .input::placeholder { color: #c7c4d8; }
 
 .input:focus,
+.select:focus,
 .select-native:focus {
   border-color: var(--color-primary-500);
   box-shadow: 0 0 0 3px rgba(64, 139, 201, 0.18);
@@ -814,8 +815,10 @@ button.up-btn { border: 0; font: inherit; }
 /* --- Generic Select --- */
 .select-wrap {
   position: relative;
+  width: 100%;
 }
 
+.select,
 .select-native {
   width: 100%;
   height: 48px;
@@ -828,10 +831,17 @@ button.up-btn { border: 0; font: inherit; }
   background: var(--color-bg-alt);
   color: var(--color-text);
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 15px;
   line-height: 24px;
   cursor: pointer;
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.05));
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.select:disabled,
+.select-native:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .select-wrap img {
@@ -921,14 +931,15 @@ button.up-btn { border: 0; font: inherit; }
 /* --- Agree Checkbox --- */
 .agree {
   position: relative;
-  display: flex;
-  align-items: flex-start;
+  display: inline-flex;
+  align-items: center;
   gap: 12px;
   padding-top: 8px;
   color: var(--color-text-sub);
   font-size: 14px;
-  line-height: 17.5px;
+  line-height: 20px;
   cursor: pointer;
+  user-select: none;
 }
 
 .agree input {
@@ -938,22 +949,38 @@ button.up-btn { border: 0; font: inherit; }
 }
 
 .agree .box {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
-  margin-top: 2px;
+  width: 20px;
+  height: 20px;
   flex: none;
   overflow: hidden;
   border-radius: 4px;
-  background: #e2e7ff;
-  transition: background-color var(--transition-fast);
+  border: 1.5px solid #c7c4d8;
+  background: var(--color-white);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
 }
 
-.agree .box img       { flex: none; opacity: 0; }
-.agree input:checked + .box     { background: var(--color-primary-500); }
-.agree input:checked + .box img { opacity: 1; }
+.agree .box img {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+  flex: none;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.agree input:checked + .box {
+  background: var(--color-primary-500);
+  border-color: var(--color-primary-500);
+}
+
+.agree input:checked + .box img {
+  opacity: 1;
+  transform: scale(1);
+}
 
 .agree a { color: #3525cd; text-decoration: none; }
 .agree a:hover { text-decoration: underline; }
@@ -1023,6 +1050,19 @@ button.up-btn { border: 0; font: inherit; }
   border: 0;
 }
 
+.topic-item {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.topic-item input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .topic-card {
   display: flex;
   align-items: center;
@@ -1056,19 +1096,26 @@ button.up-btn { border: 0; font: inherit; }
 
 .topic-check {
   position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 12.225px;
-  height: 9.019px;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  border-radius: 50%;
+  border: 1.5px solid #c7c4d8;
+  background: var(--color-white);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
 }
 
-.topic-check img  { flex: none; }
-.topic-check .on  { display: none; }
+.topic-check img  { flex: none; position: absolute; }
+.topic-check .on  { display: none; width: 13px; height: 10px; }
+.topic-check .off { display: block; width: 20px; height: 20px; opacity: 0; }
 
 .topic-item input:checked + .topic-card                    { background: var(--color-primary-500); color: var(--color-white); }
 .topic-item input:checked + .topic-card .topic-icon img    { filter: brightness(0) invert(1); }
-.topic-item input:checked + .topic-card .on                { display: block; }
+.topic-item input:checked + .topic-card .topic-check       { background: #ffffff; border-color: #ffffff; }
+.topic-item input:checked + .topic-card .on                { display: block; filter: invert(18%) sepia(88%) saturate(5430%) hue-rotate(246deg) brightness(88%) contrast(106%); }
 .topic-item input:checked + .topic-card .off               { display: none; }
 
 /* --- Footnote --- */

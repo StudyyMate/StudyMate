@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama', 100);
             $table->string('email', 100)->unique();
             $table->string('password', 255);
-            $table->string('lokasi', 100);
+            $table->json('lokasi');
             $table->string('gender', 100);
             $table->string('prodi', 100);
             $table->string('bidang_diminati', 255);

@@ -15,13 +15,24 @@
   <h1 class="reg-title">Siapa nama Anda?</h1>
   <p class="reg-lead">Gunakan nama lengkap atau nama panggilan yang ingin ditampilkan di profil.</p>
 
-  <form class="reg-form" action="/prodi" method="get">
+  @if ($errors->any())
+    <div style="background:#ffdad8;color:#ad2f34;padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:12px">
+      <ul style="margin:0;padding:0 0 0 16px">
+        @foreach ($errors->all() as $error)
+          <li>{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div>
+  @endif
+
+  <form class="reg-form" action="{{ route('register.nama.store') }}" method="POST">
+    @csrf
     <div class="field">
       <div class="field-label">
         <label class="label f-medium" for="nama">Nama Lengkap</label>
         <span class="hint">Wajib diisi</span>
       </div>
-      <input class="input" id="nama" name="nama" type="text" placeholder="cth. Alex Pratama" autocomplete="name" required />
+      <input class="input" id="nama" name="nama" type="text" placeholder="cth. Alex Pratama" autocomplete="name" value="{{ old('nama', session('register.nama')) }}" required />
     </div>
 
     <div class="field">
@@ -29,7 +40,22 @@
         <label class="label f-medium" for="email">Email</label>
         <span class="hint">Wajib diisi</span>
       </div>
-      <input class="input" id="email" name="email" type="email" placeholder="cth. exyezet@gmail.com" autocomplete="email" required />
+      <input class="input" id="email" name="email" type="email" placeholder="cth. exyezet@gmail.com" autocomplete="email" value="{{ old('email', session('register.email')) }}" required />
+    </div>
+
+    <div class="field">
+      <div class="field-label">
+        <label class="label f-medium" for="gender">Jenis Kelamin</label>
+        <span class="hint">Wajib diisi</span>
+      </div>
+      <div class="select-wrap">
+        <select class="select" id="gender" name="gender" required>
+          <option value="" disabled {{ old('gender', session('register.gender')) ? '' : 'selected' }}>Pilih jenis kelamin...</option>
+          <option value="Laki-laki" {{ old('gender', session('register.gender')) === 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+          <option value="Perempuan" {{ old('gender', session('register.gender')) === 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+        </select>
+        <img src="{{ asset('image/ab41e.svg') }}" width="10" height="6.16667" alt="" />
+      </div>
     </div>
 
     <p class="note f-medium">

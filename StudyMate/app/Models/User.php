@@ -13,15 +13,25 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    protected $primaryKey = 'id_user';
+
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'nama',
         'email',
         'password',
+        'lokasi',
+        'gender',
+        'prodi',
+        'bidang_diminati',
+        'foto_profil',
+        'streak',
     ];
 
     /**
@@ -44,6 +54,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'lokasi' => 'array',
         ];
     }
 }

@@ -30,7 +30,29 @@
           </p>
         </header>
 
-        <form class="login-form" action="/login" method="post" data-node-id="7:18">
+        @if (session('success'))
+          <div style="background:#d4edda;color:#155724;padding:12px 14px;border-radius:12px;font-size:13px;margin-bottom:16px">
+            {{ session('success') }}
+          </div>
+        @endif
+
+        @if (session('info'))
+          <div style="background:#d1ecf1;color:#0c5460;padding:12px 14px;border-radius:12px;font-size:13px;margin-bottom:16px">
+            {{ session('info') }}
+          </div>
+        @endif
+
+        @if ($errors->any())
+          <div style="background:#ffdad8;color:#ad2f34;padding:12px 14px;border-radius:12px;font-size:13px;margin-bottom:16px">
+            <ul style="margin:0;padding:0 0 0 16px">
+              @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+        @endif
+
+        <form class="login-form" action="{{ route('login.post') }}" method="post" data-node-id="7:18">
           @csrf
           <div class="form-field">
             <label for="email">Email</label>
@@ -40,7 +62,8 @@
                 id="email"
                 name="email"
                 type="email"
-                value="komangutami@gmail.com"
+                placeholder="nama@email.com"
+                value="{{ old('email') }}"
                 autocomplete="email"
                 required
               />
@@ -58,12 +81,13 @@
                 id="password"
                 name="password"
                 type="password"
-                value="Informatika"
+                placeholder="Masukkan password"
                 autocomplete="current-password"
                 required
               />
               <button
                 class="password-toggle"
+                id="password-toggle"
                 type="button"
                 aria-label="Tampilkan password"
               >
@@ -77,6 +101,23 @@
             <img src="{{ asset('image/03d99.svg') }}" alt="" aria-hidden="true" />
           </button>
         </form>
+
+        <script>
+          var toggleBtn = document.getElementById('password-toggle');
+          var passInput = document.getElementById('password');
+
+          if (toggleBtn && passInput) {
+            toggleBtn.addEventListener('click', function() {
+              if (passInput.type === 'password') {
+                passInput.type = 'text';
+                this.setAttribute('aria-label', 'Sembunyikan password');
+              } else {
+                passInput.type = 'password';
+                this.setAttribute('aria-label', 'Tampilkan password');
+              }
+            });
+          }
+        </script>
       </div>
     </section>
 

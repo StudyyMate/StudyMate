@@ -58,13 +58,80 @@
       </div>
     </div>
 
+    <div class="field">
+      <div class="field-label f-medium">
+        <label class="label" for="pw">Password</label>
+        <span class="hint" style="color:#777587" id="strength-label">Kekuatan: —</span>
+      </div>
+      <div class="input-wrap">
+        <input class="input r12" id="pw" name="password" type="password" placeholder="••••••••••••" minlength="8" autocomplete="new-password" required />
+        <button class="eye" type="button" aria-label="Tampilkan password" data-target="pw">
+          <img src="{{ asset('image/dbb07.svg') }}" width="18.3333" height="12.5" alt="" />
+        </button>
+      </div>
+      <div class="strength">
+        <div class="strength-bars" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        <p class="strength-text f-medium">
+          <img src="{{ asset('image/26085.svg') }}" width="10.8333" height="10.8333" alt="" />Minimal 8 karakter
+        </p>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label f-medium" for="pw2">Konfirmasi Password</label>
+      <div class="input-wrap">
+        <input class="input r12" id="pw2" name="password_confirmation" type="password" placeholder="••••••••••••" minlength="8" autocomplete="new-password" required />
+        <button class="eye" type="button" aria-label="Tampilkan konfirmasi" data-target="pw2">
+          <img src="{{ asset('image/dbb07.svg') }}" width="18.3333" height="12.5" alt="" />
+        </button>
+      </div>
+    </div>
+
+    
     <p class="note f-medium">
       <img src="{{ asset('image/01b40.svg') }}" width="10.6667" height="14" alt="" />
       Data Anda dienkripsi dan tidak pernah dibagikan kepada publik.
     </p>
+    
+    <div style="display:flex;flex-direction:column;gap:0">
+      <label class="agree">
+        <input type="checkbox" name="agree" required />
+        <span class="box"><img src="{{ asset('image/7f654.svg') }}" width="12" height="12" alt="" /></span>
+        <span>Saya menyetujui <a class="f-medium" href="#">Ketentuan Layanan</a> &amp; <a class="f-medium" href="#">Kebijakan Privasi</a></span>
+      </label>
+    </div>
 
     <button class="cta" type="submit" style="margin-top:16px">
       Lanjut <img src="{{ asset('image/03d99.svg') }}" width="12" height="12" alt="" />
     </button>
   </form>
+
+  <script>
+    // Eye toggle
+    document.querySelectorAll('.eye[data-target]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var inp = document.getElementById(btn.dataset.target);
+        inp.type = inp.type === 'password' ? 'text' : 'password';
+      });
+    });
+
+    // Password strength
+    var pw = document.getElementById('pw');
+    var bars = document.querySelectorAll('.strength-bars span');
+    var label = document.getElementById('strength-label');
+    pw.addEventListener('input', function() {
+      var v = pw.value;
+      var score = 0;
+      if (v.length >= 8) score++;
+      if (/[A-Z]/.test(v)) score++;
+      if (/[0-9]/.test(v)) score++;
+      if (/[^A-Za-z0-9]/.test(v)) score++;
+      var colors = ['#ad2f34','#f59e0b','#10b981','#10b981'];
+      var labels = ['Lemah','Cukup','Kuat','Sangat Kuat'];
+      bars.forEach(function(b, i) {
+        b.style.background = i < score ? colors[score - 1] : '#dae2fd';
+      });
+      label.textContent = v.length ? 'Kekuatan: ' + labels[score - 1] : 'Kekuatan: —';
+    });
+  </script>
 @endsection

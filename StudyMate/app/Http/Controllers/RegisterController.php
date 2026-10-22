@@ -42,6 +42,8 @@ class RegisterController extends Controller
             'nama'   => ['required', 'string', 'max:100'],
             'email'  => ['required', 'email', 'max:100', 'unique:users,email'],
             'gender' => ['required', 'string', 'in:Laki-laki,Perempuan'],
+            'password'              => ['required', 'string', 'min:8', 'confirmed'],
+            'agree'                 => ['accepted'],
         ], [
             'nama.required'   => 'Nama lengkap wajib diisi.',
             'email.required'  => 'Alamat email wajib diisi.',
@@ -49,12 +51,17 @@ class RegisterController extends Controller
             'email.unique'    => 'Email sudah terdaftar, gunakan email lain.',
             'gender.required' => 'Jenis kelamin wajib dipilih.',
             'gender.in'       => 'Pilih jenis kelamin yang valid.',
+            'password.required'   => 'Password wajib diisi.',
+            'password.min'        => 'Password minimal 8 karakter.',
+            'password.confirmed'  => 'Konfirmasi password tidak cocok.',
+            'agree.accepted'      => 'Anda harus menyetujui Ketentuan Layanan.',
         ]);
 
         session([
             'register.nama'   => $data['nama'],
             'register.email'  => $data['email'],
             'register.gender' => $data['gender'],
+            'register.password'=> $data['password'],
         ]);
 
         return redirect()->route('register.prodi');
@@ -121,7 +128,7 @@ class RegisterController extends Controller
     // ----------------------------------------------------------------
     // Step 4: Domisili (Provinsi & Kota)
     // ----------------------------------------------------------------
-    public function domisiliStore(Request $request)
+    public function store(Request $request)
     {
         $data = $request->validate([
             'provinsi' => ['required', 'string', 'max:100'],
@@ -136,37 +143,13 @@ class RegisterController extends Controller
             'kota'     => $data['kota'],
         ];
 
-        session([
-            'register.lokasi'   => $lokasi,
-            'register.provinsi' => $data['provinsi'],
-            'register.kota'     => $data['kota']
-        ]);
-
-        return redirect()->route('register.password');
-    }
-
-    // ----------------------------------------------------------------
-    // Step 5: Password & Simpan ke DB
-    // ----------------------------------------------------------------
-    public function store(Request $request)
-    {
-        $request->validate([
-            'password'              => ['required', 'string', 'min:8', 'confirmed'],
-            'agree'                 => ['accepted'],
-        ], [
-            'password.required'   => 'Password wajib diisi.',
-            'password.min'        => 'Password minimal 8 karakter.',
-            'password.confirmed'  => 'Konfirmasi password tidak cocok.',
-            'agree.accepted'      => 'Anda harus menyetujui Ketentuan Layanan.',
-        ]);
-
         // Semua data dari session
         $nama            = session('register.nama');
         $email           = session('register.email');
+        $password        = session('register.password');
         $gender          = session('register.gender');
         $prodi           = session('register.prodi');
         $bidang_diminati = session('register.bidang_diminati');
-        $lokasi          = session('register.lokasi');
 
         if (!$nama || !$email || !$gender || !$prodi || !$bidang_diminati || !$lokasi) {
             return redirect()->route('register')->withErrors(['session' => 'Data registrasi tidak lengkap. Mulai dari awal.']);
@@ -175,7 +158,7 @@ class RegisterController extends Controller
         $user = User::create([
             'nama'            => $nama,
             'email'           => $email,
-            'password'        => Hash::make($request->input('password')),
+            'password'        => Hash::make($password),
             'gender'          => $gender,
             'prodi'           => $prodi,
             'bidang_diminati' => $bidang_diminati,

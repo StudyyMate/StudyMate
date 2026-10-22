@@ -25,7 +25,7 @@
     </div>
   @endif
 
-  <form class="reg-form" style="gap:20px" action="{{ route('register.domisili.store') }}" method="POST">
+  <form class="reg-form" style="gap:20px" action="{{ route('register.store') }}" method="POST">
     @csrf
     <div class="field" style="gap:6px">
       <div class="field-label">

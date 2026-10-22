@@ -39,11 +39,6 @@ Route::middleware('guest')->group(function () {
     Route::get('/domisili', function () {   
         return view('domisili');
     })->name('register.domisili');
-    Route::post('/register/domisili', [RegisterController::class, 'domisiliStore'])->name('register.domisili.store');
-
-    Route::get('/password', function () {   
-        return view('password');
-    })->name('register.password');
     Route::post('/register/store', [RegisterController::class, 'store'])->name('register.store');
 });
 

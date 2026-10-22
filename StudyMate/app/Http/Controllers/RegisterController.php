@@ -103,6 +103,7 @@ class RegisterController extends Controller
         ]);
 
         $minatList = $request->input('minat');
+        $customValue = null;
 
         // Jika user memilih opsi 'Other', pastikan field minat_other diisi
         if (in_array('Other', $minatList)) {
@@ -110,17 +111,21 @@ class RegisterController extends Controller
             if ($otherVal === '') {
                 return back()->withInput()->withErrors(['minat_other' => 'Bidang minat lainnya wajib diisi jika memilih opsi Other.']);
             }
-            // Ganti 'Other' dengan nilai yang diinputkan user
-            $minatList = array_map(function($m) use ($otherVal) {
-                return $m === 'Other' ? $otherVal : $m;
-            }, $minatList);
+            $customValue = $otherVal;
+            // Hapus 'Other' dari list predefined
+            $minatList = array_values(array_filter($minatList, fn($m) => $m !== 'Other'));
 
             session(['register.minat_other' => $otherVal]);
         } else {
             session()->forget('register.minat_other');
         }
 
-        session(['register.bidang_diminati' => implode(', ', $minatList)]);
+        $bidangDiminati = [
+            'predefined' => array_values($minatList),
+            'custom'     => $customValue,
+        ];
+
+        session(['register.bidang_diminati' => $bidangDiminati]);
 
         return redirect()->route('register.domisili');
     }

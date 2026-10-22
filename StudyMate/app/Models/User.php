@@ -55,6 +55,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'lokasi' => 'array',
+            'bidang_diminati' => 'array',
         ];
     }
 }

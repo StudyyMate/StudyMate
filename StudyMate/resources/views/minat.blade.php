@@ -10,7 +10,16 @@
 @section('content')
   @php
     $saved = session('register.bidang_diminati');
-    $defaultSelected = $saved ? explode(', ', $saved) : ['Software Engineering', 'Artificial Intelligence'];
+    if (is_array($saved)) {
+        $defaultSelected = $saved['predefined'] ?? [];
+        if (!empty($saved['custom'])) {
+            $defaultSelected[] = 'Other';
+        }
+    } elseif (is_string($saved) && $saved !== '') {
+        $defaultSelected = explode(', ', $saved);
+    } else {
+        $defaultSelected = ['Software Engineering', 'Artificial Intelligence'];
+    }
     $selected = old('minat', $defaultSelected);
   @endphp
 

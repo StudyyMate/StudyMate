@@ -12,7 +12,15 @@
     $userProdi  = $u->prodi ?? 'Informatika';
     $userStreak = $u->streak ?? 7;
     $userGender = $u->gender ?? 'Perempuan';
-    $userMinat  = $u->bidang_diminati ?? 'Software Engineering';
+    $minatRaw   = $u->bidang_diminati;
+    if (is_array($minatRaw)) {
+        $predefined  = $minatRaw['predefined'] ?? [];
+        $customMinat = $minatRaw['custom'] ?? null;
+        $allMinat    = array_filter(array_merge($predefined, $customMinat ? [$customMinat] : []));
+        $userMinat   = implode(', ', $allMinat);
+    } else {
+        $userMinat = $minatRaw ?? 'Software Engineering';
+    }
 
     if (is_array($u?->lokasi)) {
       $userKota = $u->lokasi['kota'] ?? 'Surabaya';

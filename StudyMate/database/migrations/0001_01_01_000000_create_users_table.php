@@ -19,7 +19,7 @@ return new class extends Migration
             $table->json('lokasi');
             $table->string('gender', 100);
             $table->string('prodi', 100);
-            $table->string('bidang_diminati', 255);
+            $table->json('bidang_diminati')->nullable();
             $table->string('foto_profil', 255)->nullable();
             $table->integer('streak')->default(0);
         });

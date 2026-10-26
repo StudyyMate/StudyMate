@@ -42,17 +42,20 @@ class RegisterController extends Controller
             'nama'   => ['required', 'string', 'max:100'],
             'email'  => ['required', 'email', 'max:100', 'unique:users,email'],
             'gender' => ['required', 'string', 'in:Laki-laki,Perempuan'],
-            'password'              => ['required', 'string', 'min:8', 'confirmed'],
+            'password'              => ['required', 'string', 'confirmed', function ($attribute, $value, $fail) {
+                if (strlen($value) < 8 || !preg_match('/[0-9]/', $value) || !preg_match('/[\W_]/', $value)) {
+                    $fail('Password tidak valid.');
+                }
+            }],
             'agree'                 => ['accepted'],
         ], [
-            'nama.required'   => 'Nama lengkap wajib diisi.',
+            'nama.required'   => 'Data tidak boleh kosong.',
             'email.required'  => 'Alamat email wajib diisi.',
             'email.email'     => 'Format email tidak valid.',
-            'email.unique'    => 'Email sudah terdaftar, gunakan email lain.',
-            'gender.required' => 'Jenis kelamin wajib dipilih.',
+            'email.unique'    => 'Email sudah terdaftar.',
+            'gender.required' => 'Data tidak boleh kosong.',
             'gender.in'       => 'Pilih jenis kelamin yang valid.',
-            'password.required'   => 'Password wajib diisi.',
-            'password.min'        => 'Password minimal 8 karakter.',
+            'password.required'   => 'Data tidak boleh kosong.',
             'password.confirmed'  => 'Konfirmasi password tidak cocok.',
             'agree.accepted'      => 'Anda harus menyetujui Ketentuan Layanan.',
         ]);
@@ -76,7 +79,7 @@ class RegisterController extends Controller
             'prodi'   => ['required', 'string', 'max:100'],
             'jurusan' => ['nullable', 'string', 'max:50'],
         ], [
-            'prodi.required' => 'Program studi wajib diisi.',
+            'prodi.required' => 'Data tidak boleh kosong.',
         ]);
 
         session([
@@ -97,8 +100,8 @@ class RegisterController extends Controller
             'minat.*'     => ['string', 'max:50'],
             'minat_other' => ['nullable', 'string', 'max:50'],
         ], [
-            'minat.required' => 'Pilih minimal 1 bidang minat.',
-            'minat.min'      => 'Pilih minimal 1 bidang minat.',
+            'minat.required' => 'Data tidak boleh kosong.',
+            'minat.min'      => 'Data tidak boleh kosong.',
             'minat.max'      => 'Maksimal 3 bidang minat yang dapat dipilih.',
         ]);
 
@@ -139,8 +142,8 @@ class RegisterController extends Controller
             'provinsi' => ['required', 'string', 'max:100'],
             'kota'     => ['required', 'string', 'max:100'],
         ], [
-            'provinsi.required' => 'Provinsi wajib dipilih.',
-            'kota.required'     => 'Kota / kabupaten wajib dipilih.',
+            'provinsi.required' => 'Data tidak boleh kosong.',
+            'kota.required'     => 'Data tidak boleh kosong.',
         ]);
 
         $lokasi = [

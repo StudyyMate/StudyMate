@@ -689,6 +689,29 @@ button.up-btn { border: 0; font: inherit; }
 }
 
 .input.r12     { border-radius: var(--radius-md); }
+.input.is-invalid,
+.select.is-invalid,
+.jd-input.is-invalid {
+  border-color: #ad2f34 !important;
+  background-color: #fff8f8;
+}
+.input.is-invalid:focus,
+.select.is-invalid:focus,
+.jd-input.is-invalid:focus {
+  border-color: #ad2f34 !important;
+  box-shadow: 0 0 0 3px rgba(173, 47, 52, 0.15) !important;
+}
+.field-error-msg {
+  color: #ad2f34;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
+.agree.is-invalid .box {
+  border-color: #ad2f34 !important;
+  background-color: #fff8f8;
+}
+
 .input.has-icon { padding-left: 40px; }
 
 /* Input wrap with icon */

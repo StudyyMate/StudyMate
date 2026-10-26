@@ -40,7 +40,7 @@
     </div>
   @endif
 
-  <form action="{{ route('register.minat.store') }}" method="POST">
+  <form action="{{ route('register.minat.store') }}" method="POST" novalidate>
     @csrf
     <fieldset class="topics">
       <legend class="f-medium" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Fokus minat</legend>

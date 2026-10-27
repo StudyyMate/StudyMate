@@ -42,31 +42,23 @@
           </div>
         @endif
 
-        @if ($errors->any())
-          <div style="background:#ffdad8;color:#ad2f34;padding:12px 14px;border-radius:12px;font-size:13px;margin-bottom:16px">
-            <ul style="margin:0;padding:0 0 0 16px">
-              @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-              @endforeach
-            </ul>
-          </div>
-        @endif
-
-        <form class="login-form" action="{{ route('login.post') }}" method="post" data-node-id="7:18">
+        <form class="login-form" id="login-form" action="{{ route('login.post') }}" method="post" data-node-id="7:18" novalidate>
           @csrf
           <div class="form-field">
             <label for="email">Email</label>
-            <div class="input-shell">
+            <div class="input-shell {{ $errors->has('email') ? 'is-invalid' : '' }}" id="email-shell">
               <img src="{{ asset('image/a208b.svg') }}" alt="" aria-hidden="true" />
               <input
                 id="email"
                 name="email"
-                type="email"
+                type="text"
                 placeholder="nama@email.com"
                 value="{{ old('email') }}"
                 autocomplete="email"
-                required
               />
+            </div>
+            <div class="field-error-msg" id="email-error" style="display: {{ $errors->has('email') ? 'block' : 'none' }}">
+              {{ $errors->first('email') }}
             </div>
           </div>
 
@@ -75,7 +67,7 @@
               <label for="password">Password</label>
               <a href="#lupa-password">Lupa Password?</a>
             </div>
-            <div class="input-shell">
+            <div class="input-shell {{ $errors->has('password') ? 'is-invalid' : '' }}" id="password-shell">
               <img src="{{ asset('image/6a28e.svg') }}" alt="" aria-hidden="true" />
               <input
                 id="password"
@@ -83,7 +75,6 @@
                 type="password"
                 placeholder="Masukkan password"
                 autocomplete="current-password"
-                required
               />
               <button
                 class="password-toggle"
@@ -93,6 +84,9 @@
               >
                 <img src="{{ asset('image/994a5.svg') }}" alt="" aria-hidden="true" />
               </button>
+            </div>
+            <div class="field-error-msg" id="password-error" style="display: {{ $errors->has('password') ? 'block' : 'none' }}">
+              {{ $errors->first('password') }}
             </div>
           </div>
 
@@ -117,6 +111,72 @@
               }
             });
           }
+
+          // Inline validation
+          var loginForm = document.getElementById('login-form');
+          var emailInput = document.getElementById('email');
+          var emailShell = document.getElementById('email-shell');
+          var emailError = document.getElementById('email-error');
+          var passShell = document.getElementById('password-shell');
+          var passError = document.getElementById('password-error');
+
+          function setError(shell, errorEl, msg) {
+            shell.classList.add('is-invalid');
+            errorEl.textContent = msg;
+            errorEl.style.display = 'block';
+          }
+
+          function clearError(shell, errorEl) {
+            shell.classList.remove('is-invalid');
+            errorEl.textContent = '';
+            errorEl.style.display = 'none';
+          }
+
+          emailInput.addEventListener('blur', function() {
+            if (!this.value.trim()) {
+              setError(emailShell, emailError, 'Data tidak boleh kosong.');
+            }
+          });
+
+          emailInput.addEventListener('input', function() {
+            if (emailShell.classList.contains('is-invalid')) {
+              clearError(emailShell, emailError);
+            }
+          });
+
+          passInput.addEventListener('blur', function() {
+            if (!this.value) {
+              setError(passShell, passError, 'Data tidak boleh kosong.');
+            }
+          });
+
+          passInput.addEventListener('input', function() {
+            if (passShell.classList.contains('is-invalid')) {
+              clearError(passShell, passError);
+            }
+          });
+
+          loginForm.addEventListener('submit', function(e) {
+            var valid = true;
+            var firstInvalid = null;
+
+            if (!emailInput.value.trim()) {
+              setError(emailShell, emailError, 'Data tidak boleh kosong.');
+              valid = false;
+              if (!firstInvalid) firstInvalid = emailInput;
+            }
+
+            if (!passInput.value) {
+              setError(passShell, passError, 'Data tidak boleh kosong.');
+              valid = false;
+              if (!firstInvalid) firstInvalid = passInput;
+            }
+
+            if (!valid) {
+              e.preventDefault();
+              if (firstInvalid) firstInvalid.focus();
+            }
+          });
         </script>
       </div>
     </section>

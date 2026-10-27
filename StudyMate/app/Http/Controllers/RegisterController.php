@@ -22,10 +22,14 @@ class RegisterController extends Controller
         }
     }
 
-    public function getRegencies($code)
+    public function getRegencies(Request $request, $code = null)
     {
         try {
-            $safeCode = preg_replace('/[^0-9.]/', '', $code);
+            $targetCode = $code ?: $request->query('province_code');
+            $safeCode = preg_replace('/[^0-9.]/', '', (string) $targetCode);
+            if (empty($safeCode)) {
+                return response()->json(['data' => []]);
+            }
             $data = json_decode(file_get_contents("https://wilayah.id/api/regencies/{$safeCode}.json"), true);
             return response()->json($data);
         } catch (\Exception $e) {

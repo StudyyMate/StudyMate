@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,28 +25,40 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email'    => ['required', 'email'],
-            'password' => ['required', 'string'],
+        $request->validate([
+            'email'    => ['required'],
+            'password' => ['required'],
         ], [
-            'email.required'    => 'Alamat email wajib diisi.',
-            'email.email'       => 'Format email tidak valid.',
-            'password.required' => 'Password wajib diisi.',
+            'email.required'    => 'Data tidak boleh kosong.',
+            'password.required' => 'Data tidak boleh kosong.',
         ]);
 
-        $remember = $request->boolean('remember');
+        $email = trim((string) $request->input('email'));
+        $password = (string) $request->input('password');
 
-        if (Auth::attempt($credentials, $remember)) {
-            $request->session()->regenerate();
-
-            return redirect()->intended('/dashboard')->with('success', 'Selamat datang kembali!');
+        // Cek apakah akun terdaftar
+        $user = User::where('email', $email)->first();
+        if (!$user) {
+            return back()
+                ->withInput($request->only('email'))
+                ->withErrors([
+                    'email' => 'Akun belum terdaftar.',
+                ]);
         }
 
-        return back()
-            ->withInput($request->only('email'))
-            ->withErrors([
-                'email' => 'Email atau password yang Anda masukkan tidak sesuai.',
-            ]);
+        // Cek kecocokan password
+        $remember = $request->boolean('remember');
+        if (!Auth::attempt(['email' => $email, 'password' => $password], $remember)) {
+            return back()
+                ->withInput($request->only('email'))
+                ->withErrors([
+                    'password' => 'Password salah.',
+                ]);
+        }
+
+        $request->session()->regenerate();
+
+        return redirect()->intended('/dashboard')->with('success', 'Selamat datang kembali!');
     }
 
     /**

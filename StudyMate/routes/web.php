@@ -3,19 +3,19 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProfileController;
 
-// ── Public Routes ──────────────────────────────────────────
-Route::get('/', function () {
-    return view('index');
-})->name('home');
-
-// API Proxy Wilayah (Registrasi)
+// API Proxy Wilayah (Registrasi & Profil)
 Route::get('/api/wilayah/provinces', [RegisterController::class, 'getProvinces']);
-Route::get('/api/wilayah/regencies/{code}', [RegisterController::class, 'getRegencies']);
+Route::get('/api/wilayah/regencies/{code?}', [RegisterController::class, 'getRegencies']);
 
-
-// ── Guest Only (Akses ditolak jika sudah login) ─────────────
+// Guest Only Akses ditolak jika sudah login (Landing Page, Login, Register)
 Route::middleware('guest')->group(function () {
+    // Halaman awal / Landing Page
+    Route::get('/', function () {
+        return view('index');
+    })->name('home');
+
     // Auth Login
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.post');
@@ -43,7 +43,7 @@ Route::middleware('guest')->group(function () {
 });
 
 
-// ── Authenticated Only (Wajib Login) ───────────────────────
+// Authenticated Only (Wajib Login) 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
@@ -63,9 +63,8 @@ Route::middleware('auth')->group(function () {
         return view('validasifoto');
     })->name('validasi');
 
-    Route::get('/profil', function () {
-        return view('profil');
-    })->name('profil');
+    Route::get('/profil', [ProfileController::class, 'show'])->name('profil');
+    Route::post('/profil', [ProfileController::class, 'update'])->name('profil.update');
 
     Route::get('/cari', function () {
         return view('cari');

@@ -701,6 +701,14 @@ button.up-btn { border: 0; font: inherit; }
   border-color: #ad2f34 !important;
   box-shadow: 0 0 0 3px rgba(173, 47, 52, 0.15) !important;
 }
+.input-shell.is-invalid {
+  border-color: #ad2f34 !important;
+  background-color: #fff8f8 !important;
+}
+.input-shell.is-invalid:focus-within {
+  border-color: #ad2f34 !important;
+  box-shadow: 0 0 0 3px rgba(173, 47, 52, 0.15) !important;
+}
 .field-error-msg {
   color: #ad2f34;
   font-size: 12px;
@@ -2898,7 +2906,7 @@ input.jd-input       { cursor: text; }
   letter-spacing: 0.4px;
 }
 
-.pf-badge.streak   { background: var(--color-accent-gold-bg); color: #261a00; }
+.pf-badge.streak   { display: inline-flex; flex-direction: row; align-items: center; gap: 6px; padding: 4px 12px; background: var(--color-accent-gold-bg); color: #261a00; }
 .pf-badge.verified { background: #eaedff; color: var(--color-primary-700); }
 
 /* Facts list */

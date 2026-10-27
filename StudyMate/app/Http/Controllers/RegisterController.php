@@ -12,7 +12,7 @@ class RegisterController extends Controller
     // ----------------------------------------------------------------
     // Proxy Wilayah API (Hindari CORS Browser)
     // ----------------------------------------------------------------
-    public static function clearRegistrationSession(Request $request = null): void
+    public static function clearRegistrationSession(?Request $request = null): void
     {
         $keys = [
             'register.nama',

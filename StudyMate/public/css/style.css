@@ -994,8 +994,8 @@ button.up-btn { border: 0; font: inherit; }
 }
 
 .agree .box img {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   object-fit: contain;
   flex: none;
   opacity: 0;

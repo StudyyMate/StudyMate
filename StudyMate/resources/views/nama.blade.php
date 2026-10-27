@@ -93,7 +93,7 @@
     <div style="display:flex;flex-direction:column;gap:0">
       <label class="agree" id="agree-label">
         <input type="checkbox" id="agree" name="agree" />
-        <span class="box"><img src="{{ asset('image/7f654.svg') }}" width="12" height="12" alt="" /></span>
+        <span class="box"><img src="{{ asset('image/7f654.svg') }}" width="14" height="14" alt="" /></span>
         <span>Saya menyetujui <a class="f-medium" href="#">Ketentuan Layanan</a> &amp; <a class="f-medium" href="#">Kebijakan Privasi</a></span>
       </label>
       <span class="field-error-msg" id="agree-error" style="display:none">Data tidak boleh kosong.</span>

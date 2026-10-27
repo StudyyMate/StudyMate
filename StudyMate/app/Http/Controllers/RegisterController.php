@@ -12,6 +12,29 @@ class RegisterController extends Controller
     // ----------------------------------------------------------------
     // Proxy Wilayah API (Hindari CORS Browser)
     // ----------------------------------------------------------------
+    public static function clearRegistrationSession(Request $request = null): void
+    {
+        $keys = [
+            'register.nama',
+            'register.email',
+            'register.password',
+            'register.gender',
+            'register.prodi',
+            'register.jurusan',
+            'register.bidang_diminati',
+            'register.minat_other',
+            'register.lokasi',
+            'register.provinsi',
+            'register.kota',
+        ];
+
+        if ($request) {
+            $request->session()->forget($keys);
+        } else {
+            session()->forget($keys);
+        }
+    }
+
     public function getProvinces()
     {
         try {
@@ -182,11 +205,7 @@ class RegisterController extends Controller
         Auth::login($user);
 
         // Bersihkan session register
-        $request->session()->forget([
-            'register.nama', 'register.email', 'register.gender', 'register.prodi',
-            'register.jurusan', 'register.bidang_diminati', 'register.minat_other',
-            'register.lokasi', 'register.provinsi', 'register.kota',
-        ]);
+        self::clearRegistrationSession($request);
 
         return redirect('/dashboard')->with('success', 'Akun berhasil dibuat! Selamat datang di StudyMate.');
     }

@@ -1,5 +1,97 @@
 @extends('layouts.app')
 
+@push('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
+<style>
+  .modal-crop-backdrop {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(4px);
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .modal-crop-box {
+    background: #ffffff;
+    border-radius: 16px;
+    max-width: 540px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    animation: modalPop 0.2s ease-out;
+  }
+  @keyframes modalPop {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .modal-crop-head {
+    padding: 16px 20px;
+    border-bottom: 1px solid #eef2f6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .modal-crop-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+  }
+  .modal-crop-body {
+    padding: 16px 20px;
+    background: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 320px;
+    max-height: 60vh;
+  }
+  .modal-crop-body img {
+    max-width: 100%;
+    max-height: 55vh;
+    display: block;
+  }
+  .modal-crop-foot {
+    padding: 14px 20px;
+    border-top: 1px solid #eef2f6;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    background: #ffffff;
+  }
+  .btn-crop-cancel {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid #c7c4d8;
+    background: #ffffff;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn-crop-save {
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: none;
+    background: #084d79;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(53, 37, 205, 0.3);
+  }
+  .cropper-view-box,
+  .cropper-face {
+    border-radius: 50%;
+  }
+</style>
+@endpush
+
 @section('title', 'Profil Belajar')
 @section('page-class', 'profil-page')
 @section('main-class', 'pf-main')
@@ -472,17 +564,87 @@
         showViewMode();
       });
 
-      // 2. Preview Foto Profil
+      // 2. Preview & Crop Foto Profil
       var fotoInput = document.getElementById('foto_profil');
       var avatarImg = document.getElementById('profile-avatar-img');
+      var cropModal = document.getElementById('modal-crop');
+      var cropImageEl = document.getElementById('crop-image-element');
+      var btnCropSave = document.getElementById('btn-crop-save');
+      var btnCropCancel = document.getElementById('btn-crop-cancel');
+      var cropper = null;
+      var originalFileName = 'avatar.png';
+
       fotoInput.addEventListener('change', function(e) {
         if (e.target.files && e.target.files[0]) {
+          var file = e.target.files[0];
+          originalFileName = file.name || 'avatar.png';
           var reader = new FileReader();
           reader.onload = function(evt) {
-            avatarImg.src = evt.target.result;
+            cropImageEl.src = evt.target.result;
+            cropModal.style.display = 'flex';
+
+            if (cropper) {
+              cropper.destroy();
+            }
+
+            cropper = new Cropper(cropImageEl, {
+              aspectRatio: 1,
+              viewMode: 1,
+              dragMode: 'move',
+              autoCropArea: 0.9,
+              restore: false,
+              guides: true,
+              center: true,
+              highlight: false,
+              cropBoxMovable: true,
+              cropBoxResizable: true,
+              toggleDragModeOnDblclick: false,
+            });
           };
-          reader.readAsDataURL(e.target.files[0]);
+          reader.readAsDataURL(file);
         }
+      });
+
+      btnCropCancel.addEventListener('click', function() {
+        cropModal.style.display = 'none';
+        if (cropper) {
+          cropper.destroy();
+          cropper = null;
+        }
+        fotoInput.value = '';
+      });
+
+      btnCropSave.addEventListener('click', function() {
+        if (!cropper) return;
+
+        var canvas = cropper.getCroppedCanvas({
+          width: 500,
+          height: 500,
+          imageSmoothingEnabled: true,
+          imageSmoothingQuality: 'high',
+        });
+
+        canvas.toBlob(function(blob) {
+          if (!blob) return;
+
+          // Buat file baru dari blob hasil crop untuk dimasukkan ke form file input
+          var croppedFile = new File([blob], originalFileName, {
+            type: blob.type || 'image/png',
+            lastModified: Date.now()
+          });
+
+          var dataTransfer = new DataTransfer();
+          dataTransfer.items.add(croppedFile);
+          fotoInput.files = dataTransfer.files;
+
+          // Perbarui foto avatar preview di UI
+          avatarImg.src = canvas.toDataURL('image/png');
+
+          // Tutup modal
+          cropModal.style.display = 'none';
+          cropper.destroy();
+          cropper = null;
+        }, 'image/png');
       });
 
       // 3. Wilayah API (Provinsi & Kota)
@@ -805,4 +967,22 @@
       });
     });
   </script>
+
+  {{-- Modal Crop Foto Profil --}}
+  <div class="modal-crop-backdrop" id="modal-crop">
+    <div class="modal-crop-box">
+      <div class="modal-crop-head">
+        <h3 class="modal-crop-title pj-bold">Sesuaikan Foto Profil</h3>
+      </div>
+      <div class="modal-crop-body">
+        <img id="crop-image-element" src="" alt="Pratinjau Foto" />
+      </div>
+      <div class="modal-crop-foot">
+        <button type="button" class="btn-crop-cancel pj-semi" id="btn-crop-cancel">Batal</button>
+        <button type="button" class="btn-crop-save pj-semi" id="btn-crop-save">Gunakan Foto</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
 @endsection

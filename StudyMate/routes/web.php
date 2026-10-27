@@ -12,7 +12,8 @@ Route::get('/api/wilayah/regencies/{code?}', [RegisterController::class, 'getReg
 // Guest Only Akses ditolak jika sudah login (Landing Page, Login, Register)
 Route::middleware('guest')->group(function () {
     // Halaman awal / Landing Page
-    Route::get('/', function () {
+    Route::get('/', function (\Illuminate\Http\Request $request) {
+        RegisterController::clearRegistrationSession($request);
         return view('index');
     })->name('home');
 

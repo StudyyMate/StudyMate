@@ -11,11 +11,13 @@ class LoginController extends Controller
     /**
      * Tampilkan halaman login.
      */
-    public function showLoginForm()
+    public function showLoginForm(Request $request)
     {
         if (Auth::check()) {
             return redirect('/dashboard');
         }
+
+        RegisterController::clearRegistrationSession($request);
 
         return view('login');
     }

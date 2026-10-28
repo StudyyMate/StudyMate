@@ -780,7 +780,7 @@ class Sprint1Test extends TestCase
             'minat' => ['Data Science'],
             'provinsi' => 'Jawa Timur',
             'kota' => 'Kabupaten Nganjuk',
-            'foto_profil' => UploadedFile::fake()->image('avatar.jpg'),
+            'foto_profil' => UploadedFile::fake()->create('avatar.jpg', 500, 'image/jpeg'),
         ]);
 
         $response->assertRedirect(route('profil'));
@@ -789,9 +789,9 @@ class Sprint1Test extends TestCase
 
         $this->assertNotNull($user->foto_profil);
 
-        Storage::disk('public')->assertExists(
-            $user->foto_profil
-        );
+        /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
+        $disk = Storage::disk('public');
+        $disk->assertExists($user->foto_profil);
     }
 
     public function test_profile_rejects_non_image_file(): void
@@ -830,11 +830,13 @@ class Sprint1Test extends TestCase
             'minat' => ['Data Science'],
             'provinsi' => 'Jawa Timur',
             'kota' => 'Kabupaten Nganjuk',
-            'foto_profil' => UploadedFile::fake()->image('large.jpg')
-                ->size(2049),
+            'foto_profil' => UploadedFile::fake()->create('large.jpg', 2049, 'image/jpeg'),
         ]);
 
         $response->assertSessionHasErrors('foto_profil');
+        $response->assertSessionHasErrors([
+            'foto_profil' => 'Ukuran file foto maksimal 2MB.',
+        ]);
     }
 
     // =====================================================

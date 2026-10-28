@@ -218,6 +218,9 @@
           Pilih Foto Baru
         </button>
         <p style="font-size:11px;color:#888;margin-top:4px">JPG, PNG, atau WEBP. Maks 2MB.</p>
+        <span class="field-error-msg" id="avatar-error" style="display:{{ $errors->has('foto_profil') ? 'block' : 'none' }};margin-top:6px;text-align:center">
+          {{ $errors->first('foto_profil') }}
+        </span>
       </div>
 
       <h2 class="pf-name pj-bold" id="sidebar-name">{{ $userName }}</h2>
@@ -567,6 +570,7 @@
       // 2. Preview & Crop Foto Profil
       var fotoInput = document.getElementById('foto_profil');
       var avatarImg = document.getElementById('profile-avatar-img');
+      var avatarErr = document.getElementById('avatar-error');
       var cropModal = document.getElementById('modal-crop');
       var cropImageEl = document.getElementById('crop-image-element');
       var btnCropSave = document.getElementById('btn-crop-save');
@@ -575,8 +579,21 @@
       var originalFileName = 'avatar.png';
 
       fotoInput.addEventListener('change', function(e) {
+        if (avatarErr) avatarErr.style.display = 'none';
+
         if (e.target.files && e.target.files[0]) {
           var file = e.target.files[0];
+
+          // Validasi ukuran file asli (maksimal 2MB = 2 * 1024 * 1024 bytes)
+          if (file.size > 2 * 1024 * 1024) {
+            fotoInput.value = '';
+            if (avatarErr) {
+              avatarErr.textContent = 'Ukuran file foto maksimal 2MB.';
+              avatarErr.style.display = 'block';
+            }
+            return;
+          }
+
           originalFileName = file.name || 'avatar.png';
           var reader = new FileReader();
           reader.onload = function(evt) {

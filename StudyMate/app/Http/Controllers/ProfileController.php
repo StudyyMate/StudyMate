@@ -34,6 +34,8 @@ class ProfileController extends Controller
             'minat.min'         => 'Data tidak boleh kosong.',
             'provinsi.required' => 'Data tidak boleh kosong.',
             'kota.required'     => 'Data tidak boleh kosong.',
+            'foto_profil.image' => 'File harus berupa gambar.',
+            'foto_profil.max'   => 'Ukuran file foto maksimal 2MB.',
         ]);
 
         /** @var \App\Models\User $user */

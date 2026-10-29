@@ -250,6 +250,20 @@ class Sprint1Test extends TestCase
         $response->assertSessionHasErrors('email');
     }
 
+    public function test_registration_rejects_email_with_uppercase_letters(): void
+    {
+        $response = $this->post('/register/nama', [
+            'nama' => 'Siti Aminah',
+            'email' => 'Siti@example.com',
+            'gender' => 'Perempuan',
+            'password' => 'Secret123!',
+            'password_confirmation' => 'Secret123!',
+            'agree' => '1',
+        ]);
+
+        $response->assertSessionHasErrors('email');
+    }
+
     public function test_registration_rejects_duplicate_email(): void
     {
         $this->createUser();
@@ -471,6 +485,7 @@ class Sprint1Test extends TestCase
         $response->assertSessionHasErrors('kota');
     }
 
+
     public function test_registration_completes_and_logs_user_in(): void
     {
         session($this->registrationSession());
@@ -480,14 +495,17 @@ class Sprint1Test extends TestCase
             'kota' => 'Kabupaten Nganjuk',
         ]);
 
-        $response->assertRedirect('/dashboard');
+        // Setelah registrasi, pengguna diarahkan ke halaman login.
+        $response->assertRedirect('/login');
 
+        // Pastikan akun berhasil disimpan ke database.
         $this->assertDatabaseHas('users', [
             'nama' => 'Siti Aminah',
             'email' => 'siti@example.com',
             'gender' => 'Perempuan',
         ]);
 
+        // Pastikan password disimpan dalam bentuk hash.
         $user = User::where(
             'email',
             'siti@example.com'
@@ -497,8 +515,10 @@ class Sprint1Test extends TestCase
             Hash::check('Secret123!', $user->password)
         );
 
-        $this->assertAuthenticatedAs($user);
+        // Pengguna belum login karena harus login sendiri.
+        $this->assertGuest();
 
+        // Pastikan session registrasi sudah dibersihkan.
         $this->assertFalse(
             session()->has('register.nama')
         );

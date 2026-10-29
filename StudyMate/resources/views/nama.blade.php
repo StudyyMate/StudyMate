@@ -163,14 +163,20 @@
     });
 
     // Email
+    var emailRegex = /^[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}$/;
     emailInput.addEventListener('blur', function() {
       var v = emailInput.value.trim();
       if (!v) {
         showErr(emailInput, emailErr, 'Data tidak boleh kosong.');
+      } else if (!emailRegex.test(v)) {
+        showErr(emailInput, emailErr, 'Format email tidak valid.');
       }
     });
     emailInput.addEventListener('input', function() {
-      if (emailInput.value.trim()) clearErr(emailInput, emailErr);
+      var v = emailInput.value.trim();
+      if (v && emailRegex.test(v)) {
+        clearErr(emailInput, emailErr);
+      }
     });
 
     // Gender
@@ -225,8 +231,12 @@
         showErr(namaInput, namaErr, 'Data tidak boleh kosong.');
         hasError = true;
       }
-      if (!emailInput.value.trim()) {
+      var emailVal = emailInput.value.trim();
+      if (!emailVal) {
         showErr(emailInput, emailErr, 'Data tidak boleh kosong.');
+        hasError = true;
+      } else if (!emailRegex.test(emailVal)) {
+        showErr(emailInput, emailErr, 'Format email tidak valid.');
         hasError = true;
       }
       if (!genderSel.value) {

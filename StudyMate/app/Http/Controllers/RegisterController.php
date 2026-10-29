@@ -67,7 +67,7 @@ class RegisterController extends Controller
     {
         $data = $request->validate([
             'nama'   => ['required', 'string', 'max:100'],
-            'email'  => ['required', 'email', 'max:100', 'unique:users,email'],
+            'email'  => ['required', 'email', 'max:100', 'unique:users,email', 'regex:/^[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}$/'],
             'gender' => ['required', 'string', 'in:Laki-laki,Perempuan'],
             'password'              => ['required', 'string', 'confirmed', function ($attribute, $value, $fail) {
                 if (strlen($value) < 8 || !preg_match('/[0-9]/', $value) || !preg_match('/[\W_]/', $value)) {
@@ -79,6 +79,7 @@ class RegisterController extends Controller
             'nama.required'   => 'Data tidak boleh kosong.',
             'email.required'  => 'Alamat email wajib diisi.',
             'email.email'     => 'Format email tidak valid.',
+            'email.regex'     => 'Format email tidak valid.',
             'email.unique'    => 'Email sudah terdaftar.',
             'gender.required' => 'Data tidak boleh kosong.',
             'gender.in'       => 'Pilih jenis kelamin yang valid.',
@@ -201,12 +202,9 @@ class RegisterController extends Controller
             'streak'          => 0,
         ]);
 
-        // Auto login user setelah berhasil register
-        Auth::login($user);
-
         // Bersihkan session register
         self::clearRegistrationSession($request);
 
-        return redirect('/dashboard')->with('success', 'Akun berhasil dibuat! Selamat datang di StudyMate.');
+        return redirect()->route('login')->with('success', 'Akun berhasil dibuat! Silakan masuk ke akun Anda.');
     }
 }

@@ -18,7 +18,7 @@
     } elseif (is_string($saved) && $saved !== '') {
         $defaultSelected = explode(', ', $saved);
     } else {
-        $defaultSelected = ['Software Engineering', 'Artificial Intelligence'];
+        $defaultSelected = [];
     }
     $selected = old('minat', $defaultSelected);
   @endphp
@@ -29,6 +29,11 @@
   </div>
   <h1 class="reg-title">Apa fokus minat Anda?</h1>
   <p class="reg-lead" style="margin-bottom:16px">Pilih 1–3 bidang yang relevan dengan jalur karier atau skripsi Anda.</p>
+
+  {{-- Notif batas minat (muncul via JS) --}}
+  <div id="minat-limit-notif" style="display:none;background:#ffdad8;color:#ad2f34;padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:12px">
+    Maksimal 3 bidang minat yang dapat dipilih.
+  </div>
 
   @if ($errors->any())
     <div style="background:#ffdad8;color:#ad2f34;padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:12px">
@@ -124,6 +129,8 @@
     var otherContainer = document.getElementById('other-input-container');
     var otherInput = document.getElementById('minat_other_input');
 
+    var limitNotif = document.getElementById('minat-limit-notif');
+
     function toggleOtherInput() {
       if (otherCheckbox.checked) {
         otherContainer.style.display = 'block';
@@ -153,7 +160,8 @@
           if (this === otherCheckbox) {
             toggleOtherInput();
           }
-          alert('Maksimal memilih 3 bidang minat!');
+          limitNotif.style.display = 'block';
+          setTimeout(() => limitNotif.style.display = 'none', 3000);
           return;
         }
         updateCount();

@@ -12,8 +12,8 @@
     <span class="dot"></span>
     <span class="f-semibold" style="color:#3525cd;letter-spacing:0.55px">Identitas Dasar</span>
   </div>
-  <h1 class="reg-title">Siapa nama Anda?</h1>
-  <p class="reg-lead">Gunakan nama lengkap atau nama panggilan yang ingin ditampilkan di profil.</p>
+  <h1 class="reg-title">Buat username Anda</h1>
+  <p class="reg-lead">Gunakan username yang unik untuk identitas Anda di profil StudyMate.</p>
 
   {{-- Notif banner atas dihapus: pesan error langsung di masing-masing field --}}
 
@@ -21,10 +21,10 @@
     @csrf
     <div class="field">
       <div class="field-label">
-        <label class="label f-medium" for="nama">Nama Lengkap</label>
+        <label class="label f-medium" for="nama">Username</label>
         <span class="hint">Wajib diisi</span>
       </div>
-      <input class="input @error('nama') is-invalid @enderror" id="nama" name="nama" type="text" placeholder="cth. Alex Pratama" autocomplete="name" value="{{ old('nama', session('register.nama')) }}" />
+      <input class="input @error('nama') is-invalid @enderror" id="nama" name="nama" type="text" placeholder="cth. alexpratama99" autocomplete="username" value="{{ old('nama', session('register.nama')) }}" />
       <span class="field-error-msg" id="nama-error" style="display:{{ $errors->has('nama') ? 'block' : 'none' }}">{{ $errors->first('nama') ?: 'Data tidak boleh kosong.' }}</span>
     </div>
 

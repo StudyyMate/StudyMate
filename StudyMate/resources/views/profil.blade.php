@@ -269,8 +269,8 @@
       </form>
     </section>
 
-    {{-- KONTEN KANAN: Panel View (Default) --}}
-    <section class="pf-card" id="panel-view-profile" style="display:{{ $hasErrors ? 'none' : 'block' }}" aria-label="Informasi profil">
+    {{-- KONTEN KANAN: Panel View (disembunyikan — info sudah ada di ringkasan kiri) --}}
+    <section class="pf-card" id="panel-view-profile" style="display:none" aria-label="Informasi profil">
       <div class="pf-form-head">
         <h2 class="jd-h2 pj-bold">Informasi Profil</h2>
         <span class="pf-tag pj-bold">Tersimpan</span>
@@ -279,7 +279,7 @@
 
       <div class="pf-fields" style="padding-top:16px">
         <div class="jd-field">
-          <span class="jd-label pj-semi">Nama Lengkap</span>
+          <span class="jd-label pj-semi">Username</span>
           <div class="jd-control">
             <span class="lead-ico"><img src="{{ asset('image/186b4.svg') }}" width="13.3333" height="13.3333" alt="" /></span>
             <input class="jd-input" type="text" value="{{ $userName }}" readonly style="background:#f8f9fc;cursor:default;color:#1c1b1f" />
@@ -347,9 +347,9 @@
       <p class="jd-sub in-reg" style="padding-top:2px">Ubah data profil sesuai dengan identitas terbarumu.</p>
 
       <div class="pf-fields" style="padding-top:16px">
-        {{-- Nama Lengkap --}}
+        {{-- Username --}}
         <div class="jd-field">
-          <label class="jd-label pj-semi" for="nama">Nama Lengkap <span class="req" style="color:#ad2f34">*</span></label>
+          <label class="jd-label pj-semi" for="nama">Username <span class="req" style="color:#ad2f34">*</span></label>
           <div class="jd-control">
             <span class="lead-ico"><img src="{{ asset('image/186b4.svg') }}" width="13.3333" height="13.3333" alt="" /></span>
             <input class="jd-input @error('nama') is-invalid @enderror" id="nama" name="nama" type="text" placeholder="Masukkan nama lengkap" value="{{ $editNama }}" maxlength="100" />
@@ -548,7 +548,7 @@
 
       function showViewMode() {
         panelEdit.style.display = 'none';
-        panelView.style.display = 'block';
+        panelView.style.display = 'none';
         btnToggleText.textContent = 'Edit Profil';
         mainHeading.textContent = 'Profil Belajar';
         subHeading.textContent = 'Kelola profil dan preferensi akunmu';

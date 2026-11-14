@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RecommendationController;
 
 // API Proxy Wilayah (Registrasi & Profil)
 Route::get('/api/wilayah/provinces', [RegisterController::class, 'getProvinces']);
@@ -48,9 +49,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-    Route::get('/dashboard', function () {   
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [RecommendationController::class, 'dashboard'])->name('dashboard');
 
     Route::get('/chat', function () {
         return view('chat');
@@ -67,13 +66,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profil', [ProfileController::class, 'show'])->name('profil');
     Route::post('/profil', [ProfileController::class, 'update'])->name('profil.update');
 
-    Route::get('/cari', function () {
-        return view('cari');
-    })->name('cari');
-
-    Route::get('/hasil', function () {
-        return view('hasil');
-    })->name('hasil');
+    Route::get('/cari', [RecommendationController::class, 'index'])->name('cari');
+    Route::get('/hasil', [RecommendationController::class, 'search'])->name('hasil');
 
     Route::get('/chat-room', function () {
         return view('chat-room');

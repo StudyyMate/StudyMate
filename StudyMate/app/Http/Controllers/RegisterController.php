@@ -70,8 +70,8 @@ class RegisterController extends Controller
             'email'  => ['required', 'email', 'max:100', 'unique:users,email', 'regex:/^[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}$/'],
             'gender' => ['required', 'string', 'in:Laki-laki,Perempuan'],
             'password'              => ['required', 'string', 'confirmed', function ($attribute, $value, $fail) {
-                if (strlen($value) < 8 || !preg_match('/[0-9]/', $value) || !preg_match('/[\W_]/', $value)) {
-                    $fail('Password tidak valid.');
+                if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/', (string)$value)) {
+                    $fail('Password harus memiliki minimal 8 karakter, huruf besar, huruf kecil, angka, dan simbol.');
                 }
             }],
             'agree'                 => ['accepted'],

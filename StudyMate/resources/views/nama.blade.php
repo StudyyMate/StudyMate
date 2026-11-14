@@ -154,7 +154,7 @@
     var pw2Input   = document.getElementById('pw2');
     var pw2Err     = document.getElementById('pw2-error');
 
-    // Nama
+    // Username
     namaInput.addEventListener('blur', function() {
       if (!namaInput.value.trim()) showErr(namaInput, namaErr, 'Data tidak boleh kosong.');
     });

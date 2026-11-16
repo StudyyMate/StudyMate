@@ -26,7 +26,10 @@
 <article class="card friend">
   <div class="who">
     <span class="av av-44">
-      <img src="{{ asset($photo) }}" @if($photoStyle) style="{{ $photoStyle }}" @else class="cover" @endif alt="{{ $name }}" />
+      @php
+        $imgSrc = str_starts_with($photo, 'http') ? $photo : asset($photo);
+      @endphp
+      <img src="{{ $imgSrc }}" @if($photoStyle) style="{{ $photoStyle }}" @else class="cover" @endif alt="{{ $name }}" onerror="this.onerror=null; this.removeAttribute('src');" />
     </span>
     <div>
       <p class="name-15 pj-bold">{{ $name }}</p>

@@ -5,51 +5,46 @@
 
 @section('content')
   <div class="greet">
-    <h1 class="pj-xbold">Halo, Komang.</h1>
-    <a class="find-btn pj-semi" href="/cari">
+    <div class="greet-copy">
+      <h1 class="pj-bold">Halo, {{ auth()->user()->nama ?? 'Siswa' }}.</h1>
+    </div>
+    <a class="find-btn pj-semi" href="{{ route('cari') }}">
       <img src="{{ asset('image/78380.svg') }}" width="13.5" height="13.5" alt="" />Cari Teman Belajar
     </a>
   </div>
 
-  {{-- Section Rekomendasi Teman Belajar --}}
+  {{-- Section Rekomendasi Teman Belajar (Content-Based Filtering / Usecase 5 SKPL) --}}
   <section aria-labelledby="rek">
     <div class="sec-head">
       <h2 id="rek" class="pj-bold">Rekomendasi Teman Belajar</h2>
-      <a class="pj-semi" href="/cari">Lihat semua</a>
+      <a class="pj-semi" href="{{ route('cari') }}">Lihat semua</a>
     </div>
 
-    <div class="rail">
-      <x-friend-card
-        name="Utami Putri"
-        major="Informatika"
-        city="Surabaya"
-        gender="Perempuan"
-        photo="/image/935bb.png"
-        :tags="['Database', 'SQL']"
-        chatUrl="/chat-room?nama=Utami%20Putri"
-      />
-
-      <x-friend-card
-        name="Kadek Kiko"
-        major="Informatika"
-        city="Surabaya"
-        gender="Laki-laki"
-        photo="/image/8fb29.png"
-        :tags="['Database', 'UI/UX']"
-        chatUrl="/chat-room?nama=Kadek%20Kiko"
-      />
-
-      <x-friend-card
-        name="Fairruzahwa Lestari"
-        major="Informatika"
-        city="Sidoarjo"
-        gender="Perempuan"
-        photo="/image/d77e9.png"
-        photoStyle="left:0;top:-58.02%;width:100%;height:216.03%"
-        :tags="['Machine Learning', 'Python']"
-        chatUrl="/chat-room?nama=Fairruzahwa%20Lestari"
-      />
-    </div>
+    @if(isset($recommendations) && $recommendations->count() > 0)
+      <div class="rail">
+        @foreach($recommendations as $rec)
+          @php
+            $recLokasi = is_array($rec->lokasi) ? $rec->lokasi : json_decode($rec->lokasi ?? '[]', true);
+            $recKota = $recLokasi['kota'] ?? ($recLokasi['provinsi'] ?? '-');
+            $recMinat = $rec->minat_list;
+            $fotoUrl = $rec->foto_profil ? asset('storage/' . $rec->foto_profil) : asset('image/avatar-default.svg');
+          @endphp
+          <x-friend-card
+            :name="$rec->nama"
+            :major="$rec->prodi ?? 'Belum memilih prodi'"
+            :city="$recKota"
+            :gender="$rec->gender ?? '-'"
+            :photo="$fotoUrl"
+            :tags="array_slice($recMinat, 0, 3)"
+            :chatUrl="route('chat-room', ['partner' => $rec->id_user])"
+          />
+        @endforeach
+      </div>
+    @else
+      <div style="padding: 24px 16px; background: #ffffff; border-radius: 12px; margin-top: 12px; border: 1px dashed #d1d5db; text-align: center;">
+        <p class="pj-med" style="color: #6b7280; margin: 0;">Belum ada rekomendasi teman belajar yang sesuai</p>
+      </div>
+    @endif
   </section>
 
   {{-- Grid: Ranking Bulanan & Streak --}}

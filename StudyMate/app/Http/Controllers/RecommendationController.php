@@ -127,6 +127,7 @@ class RecommendationController extends Controller
         }
 
         $results = $query->get()->map(function ($candidate) use ($currentUser) {
+            /** @var User $candidate */
             $score = $this->recommendationService->calculateSimilarity($currentUser, $candidate);
             $candidate->similarity_score = round($score * 100);
             return $candidate;

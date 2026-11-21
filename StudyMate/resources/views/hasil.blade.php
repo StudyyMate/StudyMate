@@ -18,43 +18,41 @@
 
   @if(isset($results) && $results->count() > 0)
     <ul class="results recommendation-results" id="results">
-      @foreach($results as $user)
+      @foreach($results as $rec)
         @php
-          $uLokasi = is_array($user->lokasi) ? $user->lokasi : json_decode($user->lokasi ?? '[]', true);
-          $uKota = $uLokasi['kota'] ?? ($uLokasi['provinsi'] ?? '-');
-          $uMinat = $user->minat_list;
-          $fotoUrl = $user->foto_profil ? asset('storage/' . $user->foto_profil) : asset('image/avatar-default.svg');
+          $recLokasi = is_array($rec->lokasi) ? $rec->lokasi : json_decode($rec->lokasi ?? '[]', true);
+          $recKota = $recLokasi['kota'] ?? ($recLokasi['provinsi'] ?? '-');
+          $recMinat = $rec->minat_list;
+          $fotoUrl = $rec->foto_profil ? asset('storage/' . $rec->foto_profil) : asset('image/avatar-default.svg');
         @endphp
-        <li class="card">
+        <li class="card recommendation-card" data-recommendation-index="{{ $loop->index }}">
           <div class="card-top">
             <span class="av-44">
-              <img class="cover" src="{{ $fotoUrl }}" alt="{{ $user->nama }}" onerror="this.onerror=null; this.src='{{ asset('image/avatar-default.svg') }}';" />
+              <img class="cover" style="border-radius: 50%;" src="{{ $fotoUrl }}" alt="{{ $rec->nama }}" onerror="this.onerror=null; this.removeAttribute('src');" />
             </span>
             <div class="card-info">
               <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
-                <p class="c-name pj-bold">{{ $user->nama }}</p>
-                @if(isset($user->similarity_score) && $user->similarity_score > 0)
-                  <span class="pj-bold" style="font-size: 11px; background: #eef2ff; color: #3525cd; padding: 2px 8px; border-radius: 999px;">
-                    {{ $user->similarity_score }}% Cocok
-                  </span>
-                @endif
+                <p class="c-name pj-bold">{{ $rec->nama }}</p>
+                {{-- <span class="pj-bold" style="font-size: 11px; background: #eef2ff; color: #3525cd; padding: 2px 8px; border-radius: 999px;">
+                  {{ $rec->similarity_score }}% Cocok
+                </span> --}}
               </div>
-              <p class="c-major pj-med">{{ $user->prodi ?? 'Belum memilih prodi' }}</p>
+              <p class="c-major pj-med">{{ $rec->prodi ?? 'Belum memilih prodi' }}</p>
               <p class="c-meta pj-med">
-                <span><img src="{{ asset('image/14c4a.svg') }}" width="11" height="11" alt="" />{{ $uKota }}</span>
-                <span><img src="{{ asset('image/30868.svg') }}" width="11" height="11" alt="" />{{ $user->gender ?? '-' }}</span>
+                <span><img src="{{ asset('image/14c4a.svg') }}" width="11" height="11" alt="" />{{ $recKota }}</span>
+                <span><img src="{{ asset('image/30868.svg') }}" width="11" height="11" alt="" />{{ $rec->gender ?? '-' }}</span>
               </p>
             </div>
           </div>
           <div class="card-foot">
             <div class="interests">
-              @forelse(array_slice($uMinat, 0, 3) as $m)
+              @forelse(array_slice($recMinat, 0, 3) as $m)
                 <span class="interest pj-bold">{{ $m }}</span>
               @empty
                 <span class="interest pj-med" style="color: #888;">-</span>
               @endforelse
             </div>
-            <a class="chat-btn pj-bold" href="{{ route('chat-room', ['partner' => $user->id_user]) }}">
+            <a class="chat-btn pj-bold" href="{{ route('chat-room', ['partner' => $rec->id_user]) }}">
               <img src="{{ asset('image/de1a9.svg') }}" width="11" height="11" alt="" />Chat
             </a>
           </div>

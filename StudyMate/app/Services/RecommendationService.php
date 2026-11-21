@@ -7,13 +7,14 @@ use App\Models\User;
 class RecommendationService
 {
     /**
-     * Bobot penilaian kemiripan (Total = 1.0 / 100%)
-     * Urutan prioritas: provinsi, kota, prodi, lalu minat.
+     * Bobot penilaian kemiripan (Total = 1.0 / 100%).
+     * Domisili diprioritaskan agar kandidat satu kota muncul lebih dahulu.
+     * Prodi dan minat tetap menjadi penentu kecocokan akademik/teknis.
      */
-    protected float $weightProvinsi = 0.40;
-    protected float $weightKota     = 0.30;
-    protected float $weightProdi    = 0.20;
-    protected float $weightBidang   = 0.10;
+    protected float $weightProvinsi = 0.10;
+    protected float $weightKota     = 0.50;
+    protected float $weightProdi    = 0.25;
+    protected float $weightBidang   = 0.15;
     protected int $minimumScore = 10;
 
     /**

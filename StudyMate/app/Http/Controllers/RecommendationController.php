@@ -49,7 +49,7 @@ class RecommendationController extends Controller
         $recommendations = $this->recommendationService->getRecommendations(
             $currentUser,
             User::count()
-        );
+        )->take(10);
 
         $filterOptions = $this->getFilterOptions();
 

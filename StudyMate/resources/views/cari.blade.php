@@ -102,14 +102,14 @@
         <li class="card recommendation-card" data-recommendation-index="{{ $loop->index }}">
           <div class="card-top">
             <span class="av-44">
-              <img class="cover" src="{{ $fotoUrl }}" alt="{{ $rec->nama }}" onerror="this.onerror=null; this.removeAttribute('src');" />
+              <img class="cover" style="border-radius: 50%;" src="{{ $fotoUrl }}" alt="{{ $rec->nama }}" onerror="this.onerror=null; this.removeAttribute('src');" />
             </span>
             <div class="card-info">
               <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
                 <p class="c-name pj-bold">{{ $rec->nama }}</p>
-                <span class="pj-bold" style="font-size: 11px; background: #eef2ff; color: #3525cd; padding: 2px 8px; border-radius: 999px;">
+                {{-- <span class="pj-bold" style="font-size: 11px; background: #eef2ff; color: #3525cd; padding: 2px 8px; border-radius: 999px;">
                   {{ $rec->similarity_score }}% Cocok
-                </span>
+                </span> --}}
               </div>
               <p class="c-major pj-med">{{ $rec->prodi ?? 'Belum memilih prodi' }}</p>
               <p class="c-meta pj-med">
@@ -134,13 +134,13 @@
       @endforeach
     </ul>
 
-    @if($recommendations->count() > 6)
+    {{-- @if($recommendations->count() > 6)
       <div id="load-more-wrapper" style="display: flex; justify-content: center; margin-top: 24px;">
         <button id="load-more-recommendations" class="primary pj-bold" type="button">
           Muat Lebih Banyak
         </button>
       </div>
-    @endif
+    @endif --}}
   @else
     <div style="text-align: center; padding: 32px 16px; background: #ffffff; border-radius: 12px; margin-top: 16px; border: 1px dashed #d1d5db;">
       <p class="pj-med" style="color: #6b7280; margin: 0;">Belum ada rekomendasi teman belajar yang sesuai</p>
@@ -151,35 +151,7 @@
 @push('scripts')
   <script>
     // Placeholder colour for unselected selects
-    document.querySelectorAll('.filters select').forEach(function (s) {
-      var sync = function () { s.style.color = s.value ? '#131b2e' : '#7a818a'; };
-      s.addEventListener('change', sync); sync();
-    });
 
-    var recommendationCards = Array.from(document.querySelectorAll('.recommendation-card'));
-    var visibleRecommendations = 6;
-    var loadMoreButton = document.getElementById('load-more-recommendations');
-
-    function showRecommendations() {
-      recommendationCards.forEach(function (card, index) {
-        card.hidden = index >= visibleRecommendations;
-      });
-
-      if (loadMoreButton && visibleRecommendations >= recommendationCards.length) {
-        loadMoreButton.parentElement.hidden = true;
-      }
-    }
-
-    if (recommendationCards.length > 0) {
-      showRecommendations();
-    }
-
-    if (loadMoreButton) {
-      loadMoreButton.addEventListener('click', function () {
-        visibleRecommendations += 6;
-        showRecommendations();
-      });
-    }
 
     const provinceSelect = document.getElementById('provinsi');
     const citySelect = document.getElementById('kota');

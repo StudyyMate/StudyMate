@@ -117,5 +117,53 @@ class UserSeeder extends Seeder
                 ]
             );
         }
+
+        // Cohort khusus Surabaya untuk memastikan data demo punya kandidat
+        // yang relevan pada domisili, prodi, dan minat teknis.
+        $surabayaProfiles = [
+            ['nama' => 'Rafi Prakoso', 'gender' => 'Laki-laki', 'prodi' => 'Sistem Informasi', 'minat' => ['Software Engineering', 'Artificial Intelligence & ML', 'Cyber Security']],
+            ['nama' => 'Nabila Salsabila', 'gender' => 'Perempuan', 'prodi' => 'Sistem Informasi', 'minat' => ['Artificial Intelligence', 'Machine Learning', 'Cloud Computing']],
+            ['nama' => 'Fajar Maulana', 'gender' => 'Laki-laki', 'prodi' => 'Teknologi Informasi', 'minat' => ['Cloud Computing', 'DevOps', 'Cyber Security']],
+            ['nama' => 'Mutiara Putri', 'gender' => 'Perempuan', 'prodi' => 'Teknik Informatika', 'minat' => ['Cyber Security', 'Networking', 'Cloud Computing']],
+            ['nama' => 'Rizal Aditya', 'gender' => 'Laki-laki', 'prodi' => 'Rekayasa Perangkat Lunak', 'minat' => ['Software Engineering', 'Cloud Computing', 'DevOps']],
+            ['nama' => 'Shafira Anjani', 'gender' => 'Perempuan', 'prodi' => 'Sistem Informasi', 'minat' => ['Cyber Security', 'DevOps', 'Artificial Intelligence']],
+            ['nama' => 'Dion Mahendra', 'gender' => 'Laki-laki', 'prodi' => 'Teknik Komputer', 'minat' => ['Cloud Computing', 'DevOps', 'Networking']],
+            ['nama' => 'Aurel Maharani', 'gender' => 'Perempuan', 'prodi' => 'Sains Data', 'minat' => ['Artificial Intelligence', 'Machine Learning', 'Data Science']],
+            ['nama' => 'Bintang Ramadhan', 'gender' => 'Laki-laki', 'prodi' => 'Teknik Informatika', 'minat' => ['Cyber Security', 'Cloud Computing', 'DevOps']],
+            ['nama' => 'Celine Oktavia', 'gender' => 'Perempuan', 'prodi' => 'Teknologi Informasi', 'minat' => ['Cloud Computing', 'DevOps', 'Networking']],
+            ['nama' => 'Damar Wijaya', 'gender' => 'Laki-laki', 'prodi' => 'Sistem Informasi', 'minat' => ['Software Engineering', 'DevOps', 'Database']],
+            ['nama' => 'Elisa Maharani', 'gender' => 'Perempuan', 'prodi' => 'Rekayasa Perangkat Lunak', 'minat' => ['Software Engineering', 'Cloud Computing', 'Cyber Security']],
+            ['nama' => 'Gerry Firmansyah', 'gender' => 'Laki-laki', 'prodi' => 'Teknik Komputer', 'minat' => ['IoT', 'Embedded Systems', 'Cyber Security']],
+            ['nama' => 'Hilda Prameswari', 'gender' => 'Perempuan', 'prodi' => 'Sains Data', 'minat' => ['Data Science', 'Artificial Intelligence', 'Machine Learning']],
+            ['nama' => 'Iqbal Ramdani', 'gender' => 'Laki-laki', 'prodi' => 'Teknik Informatika', 'minat' => ['Cyber Security', 'Networking', 'Cryptography']],
+            ['nama' => 'Kirana Ayu', 'gender' => 'Perempuan', 'prodi' => 'Sistem Informasi', 'minat' => ['Artificial Intelligence', 'Database', 'Big Data']],
+            ['nama' => 'Luthfi Hakim', 'gender' => 'Laki-laki', 'prodi' => 'Teknologi Informasi', 'minat' => ['Cloud Computing', 'DevOps', 'Software Engineering']],
+            ['nama' => 'Monica Zahra', 'gender' => 'Perempuan', 'prodi' => 'Rekayasa Perangkat Lunak', 'minat' => ['Mobile App Development', 'Software Engineering', 'UI/UX Design']],
+            ['nama' => 'Rangga Pradipta', 'gender' => 'Laki-laki', 'prodi' => 'Teknik Komputer', 'minat' => ['Cloud Computing', 'Cyber Security', 'DevOps']],
+        ];
+
+        foreach ($surabayaProfiles as $offset => $profile) {
+            $number = 101 + $offset;
+
+            User::updateOrCreate(
+                ['email' => "seed.user{$number}@studymate.test"],
+                [
+                    'nama' => $profile['nama'],
+                    'password' => $password,
+                    'lokasi' => [
+                        'provinsi' => 'Jawa Timur',
+                        'kota' => 'Kota Surabaya',
+                    ],
+                    'gender' => $profile['gender'],
+                    'prodi' => $profile['prodi'],
+                    'bidang_diminati' => [
+                        'predefined' => $profile['minat'],
+                        'custom' => null,
+                    ],
+                    'foto_profil' => null,
+                    'streak' => ($number * 3 + 7) % 35,
+                ]
+            );
+        }
     }
 }

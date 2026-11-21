@@ -5,6 +5,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecommendationController;
+use App\Http\Controllers\ChatController;
 
 // API Proxy Wilayah (Registrasi & Profil)
 Route::get('/api/wilayah/provinces', [RegisterController::class, 'getProvinces']);
@@ -51,9 +52,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', [RecommendationController::class, 'dashboard'])->name('dashboard');
 
-    Route::get('/chat', function () {
-        return view('chat');
-    })->name('chat');
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat');
+    Route::get('/chat-room/{partner}', [ChatController::class, 'room'])->name('chat-room');
+    Route::get('/chat-room/{partner}/messages', [ChatController::class, 'messages'])->name('chat.messages');
+    Route::post('/chat-room/{partner}/messages', [ChatController::class, 'send'])->name('chat.messages.send');
 
     Route::get('/jadwal', function () {
         return view('jadwal');
@@ -68,10 +70,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/cari', [RecommendationController::class, 'index'])->name('cari');
     Route::get('/hasil', [RecommendationController::class, 'search'])->name('hasil');
-
-    Route::get('/chat-room', function () {
-        return view('chat-room');
-    })->name('chat-room');
 
     Route::get('/materi', function () {
         return view('materi');
